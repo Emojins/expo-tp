@@ -1,55 +1,25 @@
 import { StatusBar } from 'expo-status-bar';
-import { useState } from 'react';
-import { FlatList, StyleSheet, Text, View, Pressable } from 'react-native'
+import { NavigationContainer } from '@react-navigation/native'
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import FlexView from './src/API'
+import Perfil from "./src/perfil"
+import Navegar from './src/Navigation'
 
 export default function App() {
-  const [Mostrar, modMostrar] = useState(false);
-  const vistasDos = [
-      { compa: 'Dieguito', apellido: 'Brito' },
-      { compa: 'Lucia', apellido: 'Alla' },
-      { compa: 'Lucas', apellido: 'Duran' },
-      { compa: 'Tamara', apellido: 'Queso' },
-      { compa: 'Kiko', apellido: 'Dreven' },
-  ]
-  
-  
+    const Stack = createNativeStackNavigator()
 
-  const mostrargilada = ()=>{
-    modMostrar(!Mostrar);
-  }
+
   return (
-    <View style={styles.container}>
-      <Text style={{fontSize: '25px'}} >Compañeros del curso: </Text>
-      <Pressable style={({ pressed }) => ({ backgroundColor: pressed ? 'blue': 'blue' })}
-        onPress={mostrargilada}>
-        <Text style={styles.botonKP}>Presiona para ver los compañeros del curso kp</Text>
-      </Pressable>
-      {Mostrar && (
-        <View>
-          <FlatList data={vistasDos} renderItem={({ item }) => <Text>{` nombre: ${item.compa}    apellido: ${item.apellido}`}</Text>}/>
-        </View>
-      )}
-       <StatusBar style="auto" />
-    </View>
+    <>
+     <NavigationContainer>
+        <Stack.Navigator initialRouteName='Navigation'>
+          <Stack.Screen name= 'Navigation' component={Navegar}></Stack.Screen>
+         <Stack.Screen name = 'API' component={FlexView}/>
+         <Stack.Screen name = 'Perfil' component={Perfil}/>
+        </Stack.Navigator>
+     </NavigationContainer>
+     <StatusBar style="auto" />
+    </>
      
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'rgb(140,234,213)',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  texto: {
-    fontFamily: 'Algerian',
-    fontSize: '40px'
-  },
-  botonKP:{
-    borderRadius: 10,
-    marginBottom: 10,
-    padding: 10,
-    backgroundColor: 'blue'
-  }
-});
