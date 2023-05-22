@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
   addButtonIcon: {
     height: 54,
     width: 54,
-    marginTop: 100
+    marginTop: 0
   },
 
   textimg:{

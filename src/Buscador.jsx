@@ -17,7 +17,7 @@ function App() {
       const response = await fetch(`https://la2.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}`,
         {
           headers: {
-            'X-Riot-Token': 'RGAPI-c715515e-44cf-4a25-beb7-50d7a58429de',
+            'X-Riot-Token': 'RGAPI-c85d5f76-3adf-462f-bae3-5fccabeb2800',
           },
         }
       );
@@ -83,7 +83,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     textAlignVertical: 'center',
     color: 'red',
-    fontFamily: 'Roboto'
   },
   input: {
     height: 40,
@@ -92,8 +91,11 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   imagen:{
-    height: 200,
-    width: 200,
-    borderRadius: 100
+    height: 250,
+    width: 250,
+    borderRadius: 150,
+    marginTop: 50,
+    marginLeft: 60
   }
 })
+
