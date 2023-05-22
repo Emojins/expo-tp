@@ -1,18 +1,18 @@
 import React, { useState} from 'react';
-import { Image, View, StyleSheet,TouchableOpacity,Text } from 'react-native';
+import { Image, View, StyleSheet,TouchableOpacity,Text, ImageBackground  } from 'react-native';
+import { Input } from 'react-native-elements';
 
 import * as ImagePicker from 'expo-image-picker';
 
 
 export default function App() {
-
-
-  //comenzamos haciendo un estado para guardar la img
   const [image, setImage] = useState(null);
+  const [selectedOption, setSelectedOption] = useState('');
 
-  //hacemos una funcion asyn  
-  //llamamos a la funcion launchImageLibraryAsync nos permite entrar al almacenamiento
-  //realizamos algunas configuraciones
+    const handleOptionChange = (option) => {
+    setSelectedOption(option);
+  };
+
   const pickImage = async () => {
    
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -24,68 +24,37 @@ export default function App() {
 
     console.log(result);
 
-    
-
-    //hacemos una condicion para poder guardar la imagen
-    //canceled es un metodo la cual nos permite salir o cancelar del almacenamiento, seleccionando una foto se pone el false
-    
-    //saliendo del almacenamiento en true, esto se puede ver en el console del result
-    if (!result.canceled) {//sino se activa canceled entonces guardame la img
-      setImage(result.assets[0].uri);//desestructuramos la misma para llegar a la uri
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
     }
    
   };
-
-
   return (
-
-
       <View style={styles.avatar}>
-
-
-
-
-
-<Text style={styles.text}>Selecciona tu imagen</Text>
-
-
-            {/*imprimimos la imagen  haciendo una condicion la cual dice que si encuentra la imagen entonces se imprime la uri de la misma
-          pero si no hay ninguna imagen le agrego una otra por defecto
-            */}
-
+          <ImageBackground
+      source={require('../assets/img/fondoperfil.jpg')}
+      style={styles.imagenFondo}
+    ></ImageBackground>
+        <Input placeholder="Nombre de tu cuenta..." style={styles.textoInput}/>
+        <Input placeholder="Nivel de tu cuenta..." style={styles.textoInput}/>
+        <Input placeholder="Región de Cuenta..." style={styles.textoInput}/>
+        <Input placeholder="Gilada..." style={styles.textoInput}/>
+      <Text style={styles.text}>Selecciona tu imagen</Text>
       <Image
           style={styles.avatarImage}
           source={image ? { uri: image } : require('../assets/img/desconocido.png')}
         />
-
-{/* esta es otra forma de imprimir la imagen sin ninguna otra img por defecto como en el caso anterior */}
-        {/* { image && <Image source={{uri:image}}  style={styles.avatarImage} />} */} 
-
-
-{/* llamo a la funcion que hice para ir al almacenamiento */}
         <TouchableOpacity style={styles.addButton} onPress={pickImage}>
 
- 
        <Image
         style={styles.addButtonIcon}
         source={require('../assets/img/mas.png')}
       />
         </TouchableOpacity>
-
-       
-
-
-
       </View>
 
-
-      
-      )
+ )
 }
-
-
-
-
 
 const styles = StyleSheet.create({
   imageBackground: {
@@ -95,7 +64,6 @@ const styles = StyleSheet.create({
   
   avatar: {
     alignItems: 'center',
-    marginTop: '40%',
   },
   avatarImage: {
     height: 260,
@@ -129,12 +97,9 @@ const styles = StyleSheet.create({
 
   text:{
 fontSize:30,
-
 margin:10
 
   },
-
-
   photos: {
     width: 50,
     height: 50,
@@ -142,5 +107,15 @@ margin:10
     position:'relative',
     top:-100
   },
+  imagenFondo:{
+    flex: 1,
+    height: 800,
+    width: 430,
+    opacity: 0.70
+},
+textoInput:{
+  color: '#ffffff',
+  marginBottom: 10,
+}
 
 });
