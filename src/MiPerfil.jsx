@@ -31,14 +31,9 @@ export default function App() {
   };
   return (
       <View style={styles.avatar}>
-          <ImageBackground
-      source={require('../assets/img/fondoperfil.jpg')}
-      style={styles.imagenFondo}
-    ></ImageBackground>
         <Input placeholder="Nombre de tu cuenta..." style={styles.textoInput}/>
         <Input placeholder="Nivel de tu cuenta..." style={styles.textoInput}/>
         <Input placeholder="Región de Cuenta..." style={styles.textoInput}/>
-        <Input placeholder="Gilada..." style={styles.textoInput}/>
       <Text style={styles.text}>Selecciona tu imagen</Text>
       <Image
           style={styles.avatarImage}
@@ -57,13 +52,10 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  imageBackground: {
-    flex: 1,
-  },
-
-  
   avatar: {
     alignItems: 'center',
+    backgroundColor: '#C0F5D8',
+    flex: 1
   },
   avatarImage: {
     height: 260,
@@ -80,7 +72,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     position: 'absolute',
     right: 140,
-    bottom: 40,
+    bottom: 270,
   },
   addButtonIcon: {
     height: 54,

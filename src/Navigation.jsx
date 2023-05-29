@@ -6,11 +6,10 @@ const Navegar = ({ navigation }) => {
   const views = [
     { title: 'Buscador', path: 'Buscador' },
     { title: 'Mi perfil', path: 'MiPerfil'},
-    { title: 'Info', path: 'Info'},
-  
+    {title: 'Información de LOL', path: 'Información'}
   ]
 
-  const renderItem = ({ item }) => <ButtonTitle title={item.title} action={() => navigation.navigate(item.path)} />
+  const renderItem = ({ item }) => <ButtonTitle title={item.title} action={() => navigation.navigate(item.path)}  />
 
   return (
     
@@ -35,7 +34,6 @@ const styles = StyleSheet.create({
     width: 430,
     opacity: 0.70
   },
-  
 });
 
 
