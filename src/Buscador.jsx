@@ -1,64 +1,92 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React, {useState } from 'react';
-import { Image} from 'react-native'
+import { StyleSheet, Text, View, Image, ScrollView } from 'react-native'
+import React, {useState, useEffect } from 'react';
 import { Input, Button } from 'react-native-elements';
+import { saveSearchTerm, getSearchHistory, eliminateKey} from './SearchHistory';
 
-function App() {
+const App = () => {
   const [summonerName, setSummonerName] = useState(''); //invocador
   const [playerData, setPlayerData] = useState('vacio'); //datos del invocador
+  const [searchHistory, setSearchHistory] = useState([]);
 
   const handleInputChange = (event) => {
     setSummonerName(event.target.value);
   };
-  
+  const loadSearchHistory = async () => {
+    const history = await getSearchHistory();
+    setSearchHistory(history);
+  };
+  useEffect(() => {
+    loadSearchHistory();
+  }, []);
+
   const fetchData = async () => {
     try {
       console.log(summonerName)
       const response = await fetch(`https://la2.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}`,
         {
           headers: {
-            'X-Riot-Token': 'RGAPI-c85d5f76-3adf-462f-bae3-5fccabeb2800',
+            'X-Riot-Token': 'RGAPI-c914ed86-cbec-42a4-8001-9082b691965a',
           },
         }
       );
-
+      
       const res = await response.json()
       console.log(res)
   
       setPlayerData(res);
-
+      
     } catch (error) {
       console.error(error);
     }
+
+    saveSearchTerm(summonerName);
+    loadSearchHistory();
+   
   };
 
-
   return (
+    <>
+    <ScrollView>
     <View style= {styles.container}>
       <Text style={styles.titulos}>Busca tu Cuenta Aquí</Text>
-      <Input onChangeText={(value)=>setSummonerName(value)} 
+      <Input
+      onChangeText={(value)=>setSummonerName(value)} 
       leftIcon={{ type: 'font-awesome', name: 'search' }} 
       placeholder="Buscar..." 
       style={{marginBottom: 10 }}/>
         <Button
         title="Buscar"
-        onPress={()=>fetchData()}
-        buttonStyle={{ backgroundColor: '#f4511e' }}
+        onPress={fetchData}
         containerStyle={{ marginBottom: 10 }}
       />
-        {playerData && (
-  <View>
-    <Text style={styles.texto}>Nombre: {playerData.name}</Text>
-    <Text style={styles.texto}>Nivel: {playerData.summonerLevel}</Text>
-    <Text style={styles.texto}>Icono:</Text>
-    <Image
+      <View>
+           <Text style={styles.texto}>Nombre: {playerData.name}</Text>
+           <Text style={styles.texto}>Nivel: {playerData.summonerLevel}</Text>
+           <Text style={styles.texto}>Icono:</Text>
+        <Image
       source={{uri:`http://ddragon.leagueoflegends.com/cdn/13.9.1/img/profileicon/${playerData.profileIconId}.png`}}
       style= {styles.imagen}
-    />
-  </View>
-)}
-
+        />
     </View>
+       <View>
+        <Text>Perfiles buscados:</Text>
+      {searchHistory.map((term, index) => (
+        <Text
+        style= {styles.input2}
+        key={index}>{term}
+        </Text>
+      ))}
+      <Button
+        rightIcon={{ type: 'font-awesome', name: 'trash' }}  
+        title= 'Eliminar'
+      />
+
+      
+      </View>
+    
+     </View>
+     </ScrollView>
+     </>
   );
 }
 
@@ -82,13 +110,20 @@ const styles = StyleSheet.create({
     fontSize: 35,
     textAlign: 'center',
     textAlignVertical: 'center',
-    color: 'red',
+    color: 'blue',
   },
   input: {
     height: 40,
     margin: 12,
     borderWidth: 1,
     padding: 10,
+  },
+  input2: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+    backgroundColor: 'skyblue'
   },
   imagen:{
     height: 250,
@@ -98,4 +133,3 @@ const styles = StyleSheet.create({
     marginLeft: 60
   }
 })
-
